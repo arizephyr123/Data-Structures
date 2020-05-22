@@ -38,6 +38,12 @@ class ListNode:
             self.next.prev = self.prev
 
 
+def iterate_list(node):
+    while node is not None:
+        print(node.value)
+        node = node.next
+
+
 """Our doubly-linked list class. It holds references to
 the list's head and tail nodes."""
 
@@ -51,8 +57,8 @@ class DoublyLinkedList:
     def __len__(self):
         return self.length
 
-    """Wraps the given value in a ListNode and inserts it 
-    as the new head of the list. Don't forget to handle 
+    """Wraps the given value in a ListNode and inserts it
+    as the new head of the list. Don't forget to handle
     the old head node's previous pointer accordingly."""
 
     def add_to_head(self, value):
@@ -74,10 +80,13 @@ class DoublyLinkedList:
     Returns the value of the removed Node."""
 
     def remove_from_head(self):
-        pass
+        value = self.head.value
+        self.length -= 1  # because removing a node
+        self.delete(self.head)
+        return value
 
-    """Wraps the given value in a ListNode and inserts it 
-    as the new tail of the list. Don't forget to handle 
+    """Wraps the given value in a ListNode and inserts it
+    as the new tail of the list. Don't forget to handle
     the old tail node's next pointer accordingly."""
 
     def add_to_tail(self, value):
@@ -85,32 +94,54 @@ class DoublyLinkedList:
         self.length += 1  # because adding a node
         # there is a tail
         if self.tail:
-            new_node.tail = new_node  # set tail to new_node
-            new_node.prev = self.tail  # set previous tail to new prev
-            new_node.head = self.head  # set previous head to new head
+            self.tail.next = new_node  # set tail to new_node instead of None
+            new_node.prev = self.tail  # set previous tail to new_node prev
         # there is no tail
         else:
             new_node.tail = new_node  # if no tail, no head because empty list
-            new_node.head =
+            new_node.head = new_node
 
-    """Removes the List's current tail node, making the 
+    """Removes the List's current tail node, making the
     current tail's previous node the new tail of the List.
     Returns the value of the removed Node."""
 
     def remove_from_tail(self):
-        pass
+        value = self.tail.value  # grabbing value before deleting to return
+        # could use following, but doing hard way for practice
+        # self.delete(self.tail)
 
-    """Removes the input node from its current spot in the 
+        # if 0 nodes, nothing to remove
+        if not self.tail:
+            return
+
+        # if head and tail are same (1 node)
+        elif self.head == self.tail:
+            self.head = None
+            self.tail = None
+
+        # if more than 1 node
+        else:
+            self.tail = self.tail.prev
+            self.tail.next = None
+
+        return value
+
+    """Removes the input node from its current spot in the
     List and inserts it as the new head node of the List."""
 
     def move_to_front(self, node):
-        pass
+        value = node.value
+        self.delete(node)  # removes from current spot
+        self.add_to_head(value)  # inserts as head
+        # self.add_to_head(node)  # inserts as head
 
-    """Removes the input node from its current spot in the 
+    """Removes the input node from its current spot in the
     List and inserts it as the new tail node of the List."""
 
     def move_to_end(self, node):
-        pass
+        value = node.value
+        self.delete(node)
+        self.add_to_tail(value)
 
     """Removes a node from the list and handles cases where
     the node was the head or the tail"""
@@ -120,24 +151,81 @@ class DoublyLinkedList:
         # if list is empty
         if not self.head:
             print("nothing to delete")
+            return
 
         # if list has just one item
         # if self.head == self.tail == None
-        if self.head = self.tail:
+        if self.head == self.tail:
             self.head = None
             self.tail = None
 
-        # we have at least 2 nodes, and the node we want to delete is the tail
-        if node == self.tail:
-            self.tail = node.prev
-            self.tail.next = None
+        # we have at least 2 nodes, and the node we want to delete is the head
+        if node == self.head:
+            self.head = node.next
+            self.tail.prev = None
 
         # we have at least 2 nodes, and the node we want to delete is the tail
         if node == self.tail:
             self.tail = node.prev
             self.tail.next = None
+
+        else:
+            node.delete()
 
     """Returns the highest value currently in the list"""
 
     def get_max(self):
-        pass
+        # walk through entire list
+        # keep track of the max value we've found
+
+        highest_value = self.head.value
+        current_node = self.head
+
+        while current_node != None:
+            if current_node.value > highest_value:
+                highest_value = current_node.value
+
+    def iterate_nodes(self):
+        total = 0
+        node = self.head
+        while node is not None:
+            total += 1
+            node = node.next
+        return total
+
+
+# ====== from lecture =====
+'''How do you find and return the middle node of a singly linked list in one pass? You do not have access to the length of the list. If the list is even, you should return the first of the two "middle" nodes. You may not store the nodes in another data structure.'''
+
+
+def find_middle(self):
+    middle = self.head
+    end = self.head
+
+    while end.next != None and end.next.next != None:
+        end = end.next.next
+        middle = middle.next
+
+    print(middle)
+    return middle
+
+
+'''
+does this work??
+def find_middle_alt(self):
+    middle_a = self.head
+    middle_b = self.head
+
+    while middle_b != None:
+        middle_a = middle_b
+        middle_b = middle_a.next
+    return middle_a
+'''
+
+# head should now be tail
+# tail should now be head
+# no recursion, no other data structures
+
+
+def reverse_list(self):
+    pass
