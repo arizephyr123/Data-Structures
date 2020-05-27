@@ -246,19 +246,19 @@ def find_middle_alt(self):
 
 # iterate_list(my_node)
 
-dllist = DoublyLinkedList()
+# dllist = DoublyLinkedList()
 
 # dllist.add_to_head(1)
 # print(dllist.tail.value)
-dllist.add_to_tail(1)
-dllist.add_to_tail(2)
-dllist.add_to_tail(3)
-dllist.add_to_tail(4)
-dllist.add_to_tail(5)
+# dllist.add_to_tail(1)
+# dllist.add_to_tail(2)
+# dllist.add_to_tail(3)
+# dllist.add_to_tail(4)
+# dllist.add_to_tail(5)
 # print(dllist.tail.value)
 # print(dllist.tail.prev.value)
 # print(dllist.head.value)
-iterate_list(dllist.head)
+# iterate_list(dllist.head)
 # dllist.delete(dllist.head.next)
 # iterate_list(dllist.head)
 
