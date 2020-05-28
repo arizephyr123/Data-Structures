@@ -17,20 +17,67 @@ class BSTNode:
 
     # Insert the given value into the tree
     def insert(self, value):
-        pass
+        if value >= self.value:
+            #check if self.right already exists
+
+            if self.right is not None:
+                # if so, make that 
+                # node call insert with the same value
+                self.right.insert(value)
+
+            # if not, create a node with that value, set as right child
+            else:
+                self.right = BSTNode(value)
+        
+        else:
+            # check if left exists
+            if self.left is not None:
+            # if so, make that node call insert with same value
+                self.left.insert(value)
+            # if not create new node to left
+            else:
+                self.left = BSTNode(value)
+
+
 
     # Return True if the tree contains the value
     # False if it does not
     def contains(self, target):
-        pass
+        # root could be target
+        if target == self.value:
+            return True
+        
+        elif target > self.value:
+            if self.right is not None:
+                # return recursion call to pass it back up to contains call at the root or bottom of the call stack
+                return self.contains(target)
+            else:
+                return False
+
+        else:
+            return self.left.contains(target) if self.left is not None else False
+
+        
+
 
     # Return the maximum value found in the tree
     def get_max(self):
-        pass
+        current_node = self
+        while current_node.right is not None:
+            current_node = current_node.right
+
+        return current_node.value
 
     # Call the function `fn` on the value of each node
+    # how does child node know to return to the parent node? --> Incompleted parent node in call stack on top after child process completed and removed
     def for_each(self, fn):
-        pass
+        fn(self.value)
+
+        if self.left:
+            self.left.for_each(fn)
+        
+        if self.right:
+            self.right.for_each(fn)
 
     # Part 2 -----------------------
 
